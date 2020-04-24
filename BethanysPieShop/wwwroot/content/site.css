@@ -6,7 +6,7 @@
 
 body {
     padding-top: 70px; /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
-    background-image: url('/images/pattern.png');
+    background-image: url('/images/bg.png');
     background-repeat: repeat;
     font-family: 'Source Sans Pro', sans-serif;
 }
@@ -61,9 +61,8 @@ footer {
 }
 
 .navbar-inverse {
-    background-color: #a593c2;
+    background-color: #777777a8;
     border-color: #a593c2;
-  
 }
 
 .nav.navbar-nav.navbar-right li a {
@@ -95,8 +94,7 @@ footer {
     border-color: #fba1a1 !important;
 }
 
-.btn
-{
-    background-color: #fcaeae !important;
-    border-color: #fba1a1 !important;
+.btn {
+    background-color: #777 !important;
+    border-color: #f5f5f5 !important;
 }
