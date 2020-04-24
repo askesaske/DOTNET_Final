@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Threading.Tasks;
 using BethanysPieShop.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -41,6 +42,43 @@ namespace BethanysPieShop.Controllers
 
             if (ModelState.IsValid)
             {
+                MailMessage mail = new MailMessage();
+                mail.To.Add(order.Email);
+                mail.From = new MailAddress("eabilbay@gmail.com", "VapeShop", System.Text.Encoding.UTF8);
+                mail.Subject = "Thank you for choosing our vape shop";
+                mail.SubjectEncoding = System.Text.Encoding.UTF8;
+                decimal total = 0;
+                string koko = String.Format("<strong>Hi,{0}{1} </strong>", order.FirstName, order.LastName) +"<br>";
+                foreach (ShoppingCartItem p in items) {
+                    total += p.Pie.Price;
+                    koko += p.Pie.Name + ":   " + p.Pie.Price + "$<br>";
+                }
+                mail.Body = String.Format("<strong>Hi,{0}{1} </strong>", order.FirstName, order.LastName) + "<br>" + "Your ordered items:<br>" + koko;
+                string footer_message = "<br>Your total is:   " + total + "$<br>";
+                string user_info = "<br>Your data: <br>" + order.AddressLine1 + "<br>"+ order.City + "<br>" + order.Country + "<br>" + order.PhoneNumber;
+                mail.Body += footer_message + user_info;
+                mail.BodyEncoding = System.Text.Encoding.UTF8;
+                mail.IsBodyHtml = true;
+                mail.Priority = MailPriority.High;
+                SmtpClient client = new SmtpClient();
+                client.Credentials = new System.Net.NetworkCredential("eabilbay@gmail.com", "svhuknaseqyauqlf");
+                client.Port = 587;
+                client.Host = "smtp.gmail.com";
+                client.EnableSsl = true;
+                try
+                {
+                    client.Send(mail);
+                }
+                catch (Exception ex)
+                {
+                    Exception ex2 = ex;
+                    string errorMessage = string.Empty;
+                    while (ex2 != null)
+                    {
+                        errorMessage += ex2.ToString();
+                        ex2 = ex2.InnerException;
+                    }
+                }
                 _orderRepository.CreateOrder(order);
                 _shoppingCart.ClearCart();
                 return RedirectToAction("CheckoutComplete");
