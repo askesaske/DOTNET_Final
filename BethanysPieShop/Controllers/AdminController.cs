@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace BethanysPieShop.Controllers
 {
-    [Authorize(Roles = "ADMIN")]
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         private readonly IPieRepository _pieRepository;
